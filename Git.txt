@@ -12,14 +12,16 @@ $ git init
 将文件add至暂存区（stage index）
 $ git add readme.txt
 
-将文件commit至版本库
+将文件commit至版本库（commit history）
 $ git commit -m"增加readme.txt文件"
 
 修改readme.txt文件后，git status命令查看仓库当前状态
 $ git status
 
-查看变更记录
-# git diff readme.txt
+git工作区、暂存区、版本库的概念
+$ git diff			工作区与暂存区差异
+$ git diff head		工作区与版本库差异
+$ git diff -–cached	暂存区与版本库差异
 
 提交修改后的版本 每次提交均为add和commit两步
 $ git add readme.txt
