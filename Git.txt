@@ -4,17 +4,16 @@ $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 
 创建仓库
-创建空目录
-cd、mkdir、pwd命令
+使用cd、mkdir、pwd等命令创建空目录并显示确认该目录
 
-初始化git仓库
+初始化该目录为git仓库
 $ git init
 
-添加文件至仓库
+将文件add至暂存区（stage index）
 $ git add readme.txt
 
-添加文件至仓库 -m为提交备注
-$ git commit -m "first commit"
+将文件commit至版本库
+$ git commit -m"增加readme.txt文件"
 
 修改readme.txt文件后，git status命令查看仓库当前状态
 $ git status
