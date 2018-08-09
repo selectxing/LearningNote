@@ -1,0 +1,237 @@
+1.Git入门
+打开git bash，当前目录默认为administrator目录下
+
+安装完成后全局配置， 生成.gitconfig配置文件，默认是在windows/用户目录下
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+创建仓库
+创建空目录
+$ mkdir "your repository name"
+$ cd "your repository name"
+$ pwd
+/Users/administrator/your repository name
+
+初始化为git仓库
+$ git init
+
+添加文件至仓库
+$ git add readme.txt
+
+添加文件至仓库 -m为提交备注
+$ git commit -m "first commit"
+
+修改readme.txt文件后，git status命令查看仓库当前状态
+$ git status
+
+查看变更记录
+# git diff readme.txt
+
+提交修改后的版本 每次提交均为add和commit两步
+$ git add readme.txt
+$ git commit -m "second commit"
+
+查看提交日志
+$ git log [--pretty=oneline]
+
+版本回退。head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
+$ git reset --hard head^
+
+回退后用git log看日志，已经没有第二次提交的日志，此时想回退到second commit，需要用id号reset。id号可以只输入前几位，git自动查找
+$ git resert --hard a9a06
+
+当关闭git bash后忘记id时，可以用git reflog查看每次提交、回退命令
+$ git reflog
+
+工作区、暂存区
+概念：工作区、暂存区（stage or index）、分支（master）
+
+管理修改
+可以多次修改，多次add，中间commit时，只会提交commit之前add的内容，后面未add的修改不会commit，即：
+第一次修改 -> git add -> 第二次修改 -> git add -> git commit
+
+撤销修改，有两种情况
+一种是lisence.txt自修改后还没有被放到暂存区，撤销修改就回到和版本库一模一样的状态
+一种是lisence.txt添加到暂存区后，又作了修改，撤销修改就回到添加到暂存区后的状态
+总之，让这个文件回到最近一次git commit或git add时的状态
+$ git checkout lisence.txt	撤销存入工作区的修改
+$ git reset head lisence.txt	撤销存入暂存区的修改，退回至工作区
+已提交至版本仓库时，参考上述git reset -hard head^
+
+删除文件。rm从工作区删除文件后，git status查看工作区和版本仓库不一致
+$ rm del.txt
+$ git status
+
+确认从代码库删除
+$ git rm del.txt
+$ git commit -m"del del.txt"
+
+撤销删除
+$ git checkout -- del.txt
+
+重命名文件 重命名后需要commit
+$ git mv a.txt b.txt
+$ git status
+$ git commit -m "rename a.txt"
+
+
+2.远程仓库
+创建SSH Key，默认是在windows\用户目录下
+$ ssh-keygen -t rsa -C "youremail@example.com"
+创建后打开github.com，登录，settings ->SSH and GPG keys 新增key，将PC中.ssh目录下id_rsa.pub（公钥）内容粘贴至Key中，保存
+
+添加远程库
+本地库添加localgittest，准备同步至github中gittest仓库中。第一此使用git的clone或push时，会出现SSH警告
+$ git remote add localgittest git@github.com:selectxing/gittest.git
+
+本地库内容推送至远程库
+$ git push -u localgittest master
+
+后续本地做了commit，通过push推送至github
+$ git push localgittest master
+
+从远程库克隆
+$ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
+git bash当前cd到哪个目录，就clone到哪个目录
+cd skill
+ls 列出目录中文件
+
+远程库地址的两种写法
+git@github.com:selectxing/gitskill	使用ssh协议，速度快
+https://github.com/selectxing/GitLearningNotes 使用https协议，速度较慢，只开放http端口无法使用ssh只能用http
+
+
+远程库相关
+$ git remote add origin git@github.com:selectxing/gitlearningnotes	添加远程库
+$ git remote -v	查看远程库
+$ git remote rm origin 删除远程库
+$ git push [-u] origin master [-f] 推送至远程库（首次推送-u，强制推送-f，会覆盖github远程库汇总内容，不建议采用）
+$ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
+
+因github上gitlearningnotes库中有readme.md文件，直接push会报错，可先将远程库pull到本地（未成功，不明白原因？）
+$ git pull origin master
+
+
+3.分支管理
+$ git checkout -b dev -b参数表示创建分支并切换，相当于：
+$ git branch dev
+$ git checkout dev
+
+$ git branch 查看当前分支 *号标识的为当前使用分支
+
+修改test.txt文件增加一行内容，add、commit后，切换至master分支。
+此时编辑器打开的test.txt文件就会提示重新加载为未加一行内容的版本，切换至dev分支后重新加载为增加一行内容的版本。比tfs直观好多
+
+$ git checkout master 切换至master分支
+
+在master分支下，merge分支dev
+$ git merge dev
+
+删除分支dev
+$ git branch -d dev
+
+解决冲突
+merge后，master主干与feature1分支下test.txt文件内容不一致时
+$ git status 查看冲突情况
+
+cat test.txt 打开文件
+修改文件解决冲突，add、commit将修改后master主干的文件提交，冲突解决
+
+$ git log --graph 查看分支合并图
+
+分支管理策略
+merge在没有冲突合并时，采用fast forward模式，此模式删除分支后会丢掉分支信息
+采用no-ff模式
+$ git merge --no-ff -m"merge注释" dev on-ff表示禁用fast forward，-m表示提交注释
+
+master分支应该是稳定的，修改在dev进行，发布版本时合并到master
+
+bug分支
+bug分支要求及时解决，但此时dev分支并未完成
+$ git stash 将未add或commit内容临时储藏
+$ git stash list 查看临时保存的工作现场
+
+切换至master主干，git checkout -b issue1创建issue1分支
+切换至issue1分支，修改问题add、commit
+切换至master主干，merge分支issue1至主干，删除issue1分支
+切换至dev分支，找回临时储藏的工作现场
+$ git stash list 插卡工作现场
+$ git stash pop 将工作现场恢复
+$ git stash apply 另一种恢复方式，但需要再执行$ git stash drop 删除stash内容。pop方式直接删除stash内容并恢复工作现场
+
+dev内容修改完毕后add、commit，切换至master分支合并时，如果恰好与issue1分支修改是同一文件，
+此时合并仍会有冲突，需要手工处理，是否有更好的方法解决大批量的冲突项？？？
+
+feature分支
+由dev分支创建新的feature分支，commit后切换回dev，未merge时，可用-D强制删除
+$ git branch -D feature1
+
+多人协作
+$ git remote 查看远程库信息
+$ git remote -v 显示更详细的信息
+
+获取github分支
+$ git clone git@github.com:selectxing/gittest.git  可以换机器（需要把ssh公钥添加至github设置中）或换目录。
+换目录不需要创建文件夹并git init。clone下来已经是完整的目录，名称与Github中repository名称一致。.git不是必填的
+另，clone下的版本只有master分支，如果有其他如dev分支，需要创建远程origin的dev分支到本地
+$ git checkout -b dev origin/dev
+
+每个git目录都对应一个远程库，默认origin。从github中clone后，默认origin。所以git remote add也尽量用origin名称
+
+多人协作的工作模式通常是这样：
+首先，可以试图用git push origin <branch-name>推送自己的修改；
+如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+如果合并有冲突，则解决冲突，并在本地提交；
+没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
+如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令：
+$ git branch --set-upstream-to <branch-name> origin/<branch-name>
+
+$ git rebase 把本地未push的分叉提交历史整理成直线
+
+
+4.标签
+$ git tag v1.0 定义标签
+$ git tag -a v0.9 -m"1.0版本" 定义带注释标签
+$ git tag 查看tag
+$ git tag v0.9 f52c633 对历史某一commit定义标签
+$ git show v0.9 查看标签
+
+操作标签
+$ git tag -d v0.9 删除标签
+$ git push origin v1.0 推送标签至远程库
+$ git push origin --tag 推送所有未推送标签 此处注意大小写！
+$ git push origin :refs/tags/v1.0 删除远程标签
+
+
+5.自定义Git
+通过git config配置
+$ git config --global color.ui true 显示颜色
+
+忽略特殊文件
+使用.gitignore忽略某些不需要提交到代码库的文件
+github中模板：https://github.com/github/gitignore
+
+$ git add -f App.class 强制添加被忽略的文件类型
+$ git check-ignore -v App.class 检查哪个规则忽略了.class文件类型
+
+配置别名
+$ git config --global alias.co checkout
+$ git config --global alias.ci commit
+$ git config --global alias.br branch
+
+牛逼的log别名
+$ git config --global alias.last 'log -1'
+$ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+
+配置文件位置：每个级别重写前一个级别的值
+1、系统配置文件：--system	目录位置：C:\Program Files\Git\mingw64\etc
+2、全局配置文件：--global	目录位置：C:\Users\Administrator
+3、本地配置文件：--local	目录位置：仓库\.git
+
+查看git配置文件目录
+$ git config --list --show
+$ git config --global --list
+
+
+搭建git服务器
