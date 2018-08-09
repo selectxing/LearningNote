@@ -4,9 +4,7 @@ $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 
 创建仓库
-使用cd、mkdir、pwd等命令创建空目录并显示确认该目录
-
-初始化该目录为git仓库
+初始化目录为git仓库
 $ git init
 
 将文件add至暂存区（stage index）
@@ -26,7 +24,7 @@ $ git diff -–cached	暂存区与版本库差异
 $ git status
 
 查看git日志
-$ git log [--pretty=oneline]
+$ git log <--pretty=oneline>
 
 版本回退。head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
 $ git reset --hard head^
@@ -87,8 +85,6 @@ $ git push localgittest master
 从远程库克隆
 $ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
 git bash当前cd到哪个目录，就clone到哪个目录
-cd skill
-ls 列出目录中文件
 
 远程库地址的两种写法
 git@github.com:selectxing/gitskill	使用ssh协议，速度快
@@ -99,7 +95,7 @@ https://github.com/selectxing/GitLearningNotes 使用https协议，速度较慢�
 $ git remote add origin git@github.com:selectxing/gitlearningnotes	添加远程库
 $ git remote -v	查看远程库
 $ git remote rm origin 删除远程库
-$ git push [-u] origin master [-f] 推送至远程库（首次推送-u，强制推送-f，会覆盖github远程库汇总内容，不建议采用）
+$ git push <-u> origin master <-f> 推送至远程库（首次推送-u，强制推送-f，会覆盖github远程库汇总内容，不建议采用）
 $ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
 
 因github上gitlearningnotes库中有readme.md文件，直接push会报错，可先将远程库pull到本地（未成功，不明白原因？）
@@ -128,7 +124,6 @@ $ git branch -d dev
 merge后，master主干与feature1分支下test.txt文件内容不一致时
 $ git status 查看冲突情况
 
-cat test.txt 打开文件
 修改文件解决冲突，add、commit将修改后master主干的文件提交，冲突解决
 
 $ git log --graph 查看分支合并图
@@ -229,3 +224,14 @@ $ git config --global --list
 
 
 搭建git服务器
+
+git中Linux命令
+cd		切换到目录
+pwd		显示当前目录路径
+ls		显示当前目录文件
+mkdir	创建目录
+touch	创建空文件
+cat 	打开文件
+rm -r	删除目录
+rm 		删除文件
+mv		重命名文件、移动、备份
