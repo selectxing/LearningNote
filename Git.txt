@@ -1,7 +1,7 @@
 1.Git入门
 打开git bash，当前目录默认为administrator目录下
 
-安装完成后全局配置， 生成.gitconfig配置文件，默认是在windows/用户目录下
+配置用户名、邮箱
 $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 
