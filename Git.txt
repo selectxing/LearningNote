@@ -1,18 +1,13 @@
 1.Git入门
-打开git bash，当前目录默认为administrator目录下
-
 配置用户名、邮箱
 $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 
 创建仓库
 创建空目录
-$ mkdir "your repository name"
-$ cd "your repository name"
-$ pwd
-/Users/administrator/your repository name
+cd、mkdir、pwd命令
 
-初始化为git仓库
+初始化git仓库
 $ git init
 
 添加文件至仓库
