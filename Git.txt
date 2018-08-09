@@ -7,15 +7,15 @@ $ git config --global user.email "email@example.com"
 初始化目录为git仓库
 $ git init
 
-将文件add至暂存区（stage index）
+将文件add至暂存区
 $ git add readme.txt
 
-将文件commit至版本库（commit history）
+将文件commit至版本库
 $ git commit -m"增加readme.txt文件"
 
-提交修改至版本库，均需add、commit两步
+提交修改至版本库，均需add、commit两步。涉及工作区（working directory）、暂存区（stage index）、版本库（commit history）的概念
 
-git工作区、暂存区、版本库的概念
+工作区、暂存区、版本库差异
 $ git diff			工作区与暂存区差异
 $ git diff head		工作区与版本库差异
 $ git diff -–cached	暂存区与版本库差异
@@ -25,22 +25,16 @@ $ git status
 
 查看git日志
 $ git log <--pretty=oneline>
+$ git reflog    查看完整日志
 
-版本回退。head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
-$ git reset --hard head^
+版本回退
+$ git reset --hard head^    head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
+$ git resert --hard a9a06   用id号回退。id号可以只输入前几位，git自动查找
 
-回退后用git log看日志，已经没有第二次提交的日志，此时想回退到second commit，需要用id号reset。id号可以只输入前几位，git自动查找
-$ git resert --hard a9a06
-
-当关闭git bash后忘记id时，可以用git reflog查看每次提交、回退命令
-$ git reflog
-
-工作区、暂存区
-概念：工作区、暂存区（stage or index）、分支（master）
-
-管理修改
-可以多次修改，多次add，中间commit时，只会提交commit之前add的内容，后面未add的修改不会commit，即：
-第一次修改 -> git add -> 第二次修改 -> git add -> git commit
+工作区、暂存区、版本库回退
+$ git reset –soft	暂存区->工作区
+$ git reset –mixed	版本库->暂存区
+$ git reset –hard	版本库->暂存区->工作区 
 
 撤销修改，有两种情况
 一种是lisence.txt自修改后还没有被放到暂存区，撤销修改就回到和版本库一模一样的状态
@@ -50,46 +44,34 @@ $ git checkout lisence.txt	撤销存入工作区的修改
 $ git reset head lisence.txt	撤销存入暂存区的修改，退回至工作区
 已提交至版本仓库时，参考上述git reset -hard head^
 
-删除文件。rm从工作区删除文件后，git status查看工作区和版本仓库不一致
-$ rm del.txt
-$ git status
-
-确认从代码库删除
+删除文件。需要commit
 $ git rm del.txt
-$ git commit -m"del del.txt"
 
 撤销删除
 $ git checkout -- del.txt
 
-重命名文件 重命名后需要commit
+重命名文件。需要commit
 $ git mv a.txt b.txt
-$ git status
-$ git commit -m "rename a.txt"
 
 
 2.远程仓库
-创建SSH Key，默认是在windows\用户目录下
-$ ssh-keygen -t rsa -C "youremail@example.com"
-创建后打开github.com，登录，settings ->SSH and GPG keys 新增key，将PC中.ssh目录下id_rsa.pub（公钥）内容粘贴至Key中，保存
+创建SSH Key。默认windows用户目录下.ssh目录。将id_rsa.pub（公钥）内容粘贴至GitHub设置Key中
+$ ssh-keygen -t rsa -C "email@example.com"
 
 添加远程库
-本地库添加localgittest，准备同步至github中gittest仓库中。第一此使用git的clone或push时，会出现SSH警告
-$ git remote add localgittest git@github.com:selectxing/gittest.git
+origin为与远程库（remote repository）对应的本地库（local repository）
+$ git remote add origin git@github.com:selectxing/gittest.git
 
-本地库内容推送至远程库
-$ git push -u localgittest master
+推送至远程库
+$ git push -u origin master -u指定默认origin。首次使用clone或push时，会出现SSH警告
+$ git push origin master
 
-后续本地做了commit，通过push推送至github
-$ git push localgittest master
-
-从远程库克隆
-$ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
-git bash当前cd到哪个目录，就clone到哪个目录
+从远程库克隆。clone至本地git bash当前目录
+$ git clone git@github.com:selectxing/gitskill
 
 远程库地址的两种写法
-git@github.com:selectxing/gitskill	使用ssh协议，速度快
-https://github.com/selectxing/GitLearningNotes 使用https协议，速度较慢，只开放http端口无法使用ssh只能用http
-
+git@github.com:selectxing/gitskill  使用ssh协议，速度快
+https://github.com/selectxing/gitskill  使用https协议，速度慢，只开放http端口使用
 
 远程库相关
 $ git remote add origin git@github.com:selectxing/gitlearningnotes	添加远程库
