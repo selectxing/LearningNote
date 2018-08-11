@@ -9,205 +9,141 @@ $ git init
 
 将文件add至暂存区
 $ git add readme.txt
+$ git add .     工作区所有文件add至暂存区
 
 将文件commit至版本库
 $ git commit -m"增加readme.txt文件"
 
-提交修改至版本库，均需add、commit两步。涉及工作区（working directory）、暂存区（stage index）、版本库（commit history）的概念
+提交修改至版本库，均需add、commit两步。涉及工作区（working copy）、暂存区（stage index）、版本库（commit history）的概念
 
 工作区、暂存区、版本库差异
 $ git diff			工作区与暂存区差异
 $ git diff head		工作区与版本库差异
 $ git diff -–cached	暂存区与版本库差异
 
-查看git当前状态
+查看git当前状态、冲突等信息
 $ git status
 
 查看git日志
-$ git log <--pretty=oneline>
+$ git log <--graph --pretty=oneline>
 $ git reflog    查看完整日志
 
-版本回退
-$ git reset --hard head^    head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
-$ git resert --hard a9a06   用id号回退。id号可以只输入前几位，git自动查找
+撤销修改
+$ git checkout lisence.txt	    撤销工作区文件（未add）的修改
+$ git checkout -- lisence.txt   撤销暂存区（已add）、版本库（已commit）文件的删除（手工或rm删除，非git rm）。--后需有空格
+$ git reset head lisence.txt	撤销暂存区（已add）的修改
+$ git reset --hard head^        head为当前版本，head^为上个版本，head^^为上上个版本，head~100为往前100个版本
+$ git reset --hard a9a06        id号回退。id号可以只输入前几位，git自动查找
 
-工作区、暂存区、版本库回退
-$ git reset –soft	暂存区->工作区
-$ git reset –mixed	版本库->暂存区
-$ git reset –hard	版本库->暂存区->工作区 
+工作区、暂存区、版本库回退 ？？？
+$ git reset –-soft	暂存区->工作区
+$ git reset –-mixed	版本库->暂存区
+$ git reset –-hard	版本库->暂存区->工作区
 
-撤销修改，有两种情况
-一种是lisence.txt自修改后还没有被放到暂存区，撤销修改就回到和版本库一模一样的状态
-一种是lisence.txt添加到暂存区后，又作了修改，撤销修改就回到添加到暂存区后的状态
-总之，让这个文件回到最近一次git commit或git add时的状态
-$ git checkout lisence.txt	撤销存入工作区的修改
-$ git reset head lisence.txt	撤销存入暂存区的修改，退回至工作区
-已提交至版本仓库时，参考上述git reset -hard head^
+删除文件
+$ git rm del.txt    删除commit至版本库的文件。git rm删除的文件，不管是否commit，都无法通过git checkout --撤销删除
+$ git commit -m"delete"
 
-删除文件。需要commit
-$ git rm del.txt
-
-撤销删除
-$ git checkout -- del.txt
-
-重命名文件。需要commit
+重命名文件
 $ git mv a.txt b.txt
+$ git commit -m"rename"
 
 
 2.远程仓库
-创建SSH Key。默认windows用户目录下.ssh目录。将id_rsa.pub（公钥）内容粘贴至GitHub设置Key中
+创建SSH Key。默认windows用户目录下.ssh目录。将id_rsa.pub（公钥）内容粘贴至GitHub设置的Key中
 $ ssh-keygen -t rsa -C "email@example.com"
 
-添加远程库
-origin为与远程库（remote repository）对应的本地库（local repository）
+添加、查看远程库
+origin为与远程库（remote repository）对应的本地库（local repository）链接名称
+本地库默认名称origin，如果使用多个远程库，如github、gitee等，本地库名称可自定义不同名称用以区分
 $ git remote add origin git@github.com:selectxing/gittest.git
+$ git remote 查看远程库
+$ git remote -v	查看远程库信息
+$ git remote rm origin 删除本地库链接
 
-推送至远程库
-$ git push -u origin master -u指定默认origin。首次使用clone或push时，会出现SSH警告
+从远程库克隆至本地
+$ git clone git@github.com:selectxing/gitskill.git  clone至git bash当前目录。拉取时碰到ssh port22错误，建议clone时远程库增加.git
+
+从远程库拉取到本地
+$ git pull origin master
+
+从本地推送至远程库
+$ git push -u origin master <-f> -u指定默认origin。-f强制推送，会覆盖github远程库，不建议使用。首次使用clone或push时，会出现SSH警告
 $ git push origin master
-
-从远程库克隆。clone至本地git bash当前目录
-$ git clone git@github.com:selectxing/gitskill
 
 远程库地址的两种写法
 git@github.com:selectxing/gitskill  使用ssh协议，速度快
 https://github.com/selectxing/gitskill  使用https协议，速度慢，只开放http端口使用
 
-远程库相关
-$ git remote add origin git@github.com:selectxing/gitlearningnotes	添加远程库
-$ git remote -v	查看远程库
-$ git remote rm origin 删除远程库
-$ git push <-u> origin master <-f> 推送至远程库（首次推送-u，强制推送-f，会覆盖github远程库汇总内容，不建议采用）
-$ git clone git@github.com:selectxing/gitskill 克隆远程库到本地
-
-因github上gitlearningnotes库中有readme.md文件，直接push会报错，可先将远程库pull到本地（未成功，不明白原因？）
-$ git pull origin master
-
 
 3.分支管理
-$ git checkout -b dev -b参数表示创建分支并切换，相当于：
-$ git branch dev
-$ git checkout dev
+$ git checkout -b dev   创建并切换分支dev
+$ git branch dev        创建分支dev
+$ git checkout dev      切换分支dev
+$ git branch            查看分支，*号标识的为当前使用分支
 
-$ git branch 查看当前分支 *号标识的为当前使用分支
+Git在同一目录体现分支信息，如果多个分支某文件不一致时，切换分支后文件版本即时更新为当前分支对应内容
 
-修改test.txt文件增加一行内容，add、commit后，切换至master分支。
-此时编辑器打开的test.txt文件就会提示重新加载为未加一行内容的版本，切换至dev分支后重新加载为增加一行内容的版本。比tfs直观好多
+$ git merge dev                         切换至master分支后，merge分支dev。有冲突需要手动解决冲突
+$ git branch -d dev                     删除分支dev
+$ git branch -D feature1                未merge分支-d不能删除，-D强制删除
+$ git merge --no-ff -m"merge注释" dev   禁用fast forward模式merge（直接merge删除dev分支后会丢失其信息）
+$ git checkout -b dev origin/dev        clone默认只有master分支，其他分支需创建本地库与远程库链接的dev分支
 
-$ git checkout master 切换至master分支
+$ git stash         将未add、commit的工作现场储藏
+$ git stash list    查看临时保存的工作现场
+$ git stash pop     恢复工作现场，并删除stash储藏
+$ git stash apply   恢复工作现场，未删除stash储藏
+$ git stash drop    删除stash储藏
 
-在master分支下，merge分支dev
-$ git merge dev
+stash实现了无需单独创建临时分支目录，可在同一目录临时新增A分支，且不影响未提交的B分支代码的功能
 
-删除分支dev
-$ git branch -d dev
-
-解决冲突
-merge后，master主干与feature1分支下test.txt文件内容不一致时
-$ git status 查看冲突情况
-
-修改文件解决冲突，add、commit将修改后master主干的文件提交，冲突解决
-
-$ git log --graph 查看分支合并图
-
-分支管理策略
-merge在没有冲突合并时，采用fast forward模式，此模式删除分支后会丢掉分支信息
-采用no-ff模式
-$ git merge --no-ff -m"merge注释" dev on-ff表示禁用fast forward，-m表示提交注释
-
-master分支应该是稳定的，修改在dev进行，发布版本时合并到master
-
-bug分支
-bug分支要求及时解决，但此时dev分支并未完成
-$ git stash 将未add或commit内容临时储藏
-$ git stash list 查看临时保存的工作现场
-
-切换至master主干，git checkout -b issue1创建issue1分支
-切换至issue1分支，修改问题add、commit
-切换至master主干，merge分支issue1至主干，删除issue1分支
-切换至dev分支，找回临时储藏的工作现场
-$ git stash list 插卡工作现场
-$ git stash pop 将工作现场恢复
-$ git stash apply 另一种恢复方式，但需要再执行$ git stash drop 删除stash内容。pop方式直接删除stash内容并恢复工作现场
-
-dev内容修改完毕后add、commit，切换至master分支合并时，如果恰好与issue1分支修改是同一文件，
-此时合并仍会有冲突，需要手工处理，是否有更好的方法解决大批量的冲突项？？？
-
-feature分支
-由dev分支创建新的feature分支，commit后切换回dev，未merge时，可用-D强制删除
-$ git branch -D feature1
-
-多人协作
-$ git remote 查看远程库信息
-$ git remote -v 显示更详细的信息
-
-获取github分支
-$ git clone git@github.com:selectxing/gittest.git  可以换机器（需要把ssh公钥添加至github设置中）或换目录。
-换目录不需要创建文件夹并git init。clone下来已经是完整的目录，名称与Github中repository名称一致。.git不是必填的
-另，clone下的版本只有master分支，如果有其他如dev分支，需要创建远程origin的dev分支到本地
-$ git checkout -b dev origin/dev
-
-每个git目录都对应一个远程库，默认origin。从github中clone后，默认origin。所以git remote add也尽量用origin名称
-
-多人协作的工作模式通常是这样：
-首先，可以试图用git push origin <branch-name>推送自己的修改；
-如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
-如果合并有冲突，则解决冲突，并在本地提交；
-没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
-如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令：
-$ git branch --set-upstream-to <branch-name> origin/<branch-name>
-
-$ git rebase 把本地未push的分叉提交历史整理成直线
+$ git branch --set-upstream-to <branch-name> origin/<branch-name>   建立本地库与远程库的链接。解决pull时no tracking information的报错
+$ git rebase    变基
 
 
-4.标签
-$ git tag v1.0 定义标签
-$ git tag -a v0.9 -m"1.0版本" 定义带注释标签
-$ git tag 查看tag
-$ git tag v0.9 f52c633 对历史某一commit定义标签
-$ git show v0.9 查看标签
-
-操作标签
-$ git tag -d v0.9 删除标签
-$ git push origin v1.0 推送标签至远程库
-$ git push origin --tag 推送所有未推送标签 此处注意大小写！
-$ git push origin :refs/tags/v1.0 删除远程标签
+4.标签操作
+$ git tag v1.0                      定义标签
+$ git tag -a v0.9 -m"1.0版本"       定义带注释标签
+$ git tag                           查看标签
+$ git tag v0.9 f52c633              对历史某次commit定义标签
+$ git show v0.9                     查看标签
+$ git tag -d v0.9                   删除标签
+$ git push origin v1.0              推送标签至远程库
+$ git push origin --tag             推送所有未推送标签
+$ git push origin :refs/tags/v1.0   删除远程库标签
 
 
 5.自定义Git
-通过git config配置
-$ git config --global color.ui true 显示颜色
-
 忽略特殊文件
-使用.gitignore忽略某些不需要提交到代码库的文件
-github中模板：https://github.com/github/gitignore
-
+使用.gitignore忽略某些不需要提交到代码库的文件。模板：https://github.com/github/gitignore
 $ git add -f App.class 强制添加被忽略的文件类型
 $ git check-ignore -v App.class 检查哪个规则忽略了.class文件类型
+
+配置颜色
+$ git config --global color.ui true
 
 配置别名
 $ git config --global alias.co checkout
 $ git config --global alias.ci commit
 $ git config --global alias.br branch
-
-牛逼的log别名
-$ git config --global alias.last 'log -1'
-$ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
+大牛的别名
+$ git config --global alias.last 'log -1'   末次日志
+$ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"    高亮日志格式
 
 配置文件位置：每个级别重写前一个级别的值
 1、系统配置文件：--system	目录位置：C:\Program Files\Git\mingw64\etc
 2、全局配置文件：--global	目录位置：C:\Users\Administrator
-3、本地配置文件：--local	目录位置：仓库\.git
+3、本地配置文件：--local	目录位置：本地库\.git
 
 查看git配置文件目录
 $ git config --list --show
 $ git config --global --list
 
+在Linux中搭建git本地服务器
 
-搭建git服务器
 
-git中Linux命令
+常用Linux命令
 cd		切换到目录
 pwd		显示当前目录路径
 ls		显示当前目录文件
