@@ -73,3 +73,22 @@ print(getattr(wangcai, "color"))
 
 print(hasattr(wangcai, "eat"))
 print(getattr(wangcai, "eat"))
+
+#实例属性和类属性
+class Student(object):
+    name = "Student"
+    count = 0
+    def __init__(self):
+        Student.count += 1
+
+#实例属性会屏蔽类属性。删除实例属性后，可访问类属性
+s1 = Student()
+print("实例属性：" + s1.name + "类属性：" + Student.name)
+s1.name = "Student1"
+print("实例属性：" + s1.name + "类属性：" + Student.name)
+del s1.name
+print("实例属性：" + s1.name + "类属性：" + Student.name)
+
+#利用类属性统计创建的实例数
+s2 = Student()
+print(Student.count)
