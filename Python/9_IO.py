@@ -32,3 +32,15 @@ print(fb.read())
 import os, path
 os.name #系统名称
 os.environ #系统环境变量
+
+#序列化 把变量从内存中变成可存储或传输的过程称之为序列化
+import pickle
+with open("e:/practice/python/1.txt") as f:
+    pickle.dump('111', f)
+
+#使用json序列化
+import json
+a = dict(name='jack', age=20, score=90)
+b = json.dumps(a)
+print(a)
+print(b)
