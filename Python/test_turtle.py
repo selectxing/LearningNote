@@ -1,11 +1,16 @@
 import turtle as t
 import time
 
+t.setup(1500, 1400, 0, 0) #画布大小、位置。参数说明：width,height,startx,starty
+t.pensize(30) #画笔宽度。别名：turtle.width()
+t.pencolor("green") #画笔颜色。参数可选颜色字符串、RGB小数值、整数值
+t.seth(-40) #画笔行进方向
 
+'''
 t.circle(50, 270, steps=10)
 t.lt(90)
 t.fd(100)
-
+'''
 
 #太阳花
 def drawSunFlower():
@@ -29,10 +34,6 @@ def drawSnake(rad, angle, len, neckrad):
     t.forward(rad/4)
 
 #drawSunFlower()
-t.setup(1500, 1400, 0, 0)
-t.pensize(30)  # 画笔尺寸
-t.pencolor("green")
-t.seth(-40)    # 前进的方向
 drawSnake(70, 80, 2, 15)
 
 t.done()
