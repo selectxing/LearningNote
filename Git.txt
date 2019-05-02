@@ -1,7 +1,17 @@
-1.Git入门
-配置用户名、邮箱
-$ git config --global user.name "Your Name"
-$ git config --global user.email "email@example.com"
+#克隆项目到本地
+1、下载安装git bash。地址：https://git-scm.com
+2、配置git
+    1）配置user.name、email。配置完毕后，在“C:\Users\Administrator”中生成.gitconfig文件
+        $ git config --global user.name "Your Name"
+        $ git config --global user.email "email@example.com"
+    2）配置SSH Key。配置完毕后，在“C:\Users\Administrator”中生成.ssh目录。将id_rsa.pub（公钥）添加至GitHub的Key中
+        $ ssh-keygen -t rsa -C "email@example.com"
+3、克隆项目到本地
+    1）打开git bash，cd进入保存项目所在目录；或者右键该目录git bash here
+    2）git clone git@github.com:selectxing/LearningNote.git
+
+
+#Git入门
 
 创建仓库
 初始化目录为git仓库
@@ -153,8 +163,3 @@ cat 	打开文件
 rm -r	删除目录
 rm 		删除文件
 mv		重命名文件、移动、备份
-
-克隆项目到本地
-1、配置git：使用git config配置user.name、email
-2、配置项目的目录：创建保存项目目录，打开git bash，cd进入该目录；或者右键该目录git bash here
-3、克隆项目到本地：git clone git@github.com:selectxing/LearningNote.git
