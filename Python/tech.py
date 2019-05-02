@@ -4,7 +4,6 @@ import：引入整个包，调用包中某个类时需要写包名
 from import：引入包中某个类，调用该类时无需再写包名
 import as：引用并设置别名
 '''
-
 import datetime
 print(datetime.datetime.now())
 

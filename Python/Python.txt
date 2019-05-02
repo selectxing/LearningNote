@@ -1,0 +1,22 @@
+#变量、字符串相关
+字符串处理：title()、upper()、lower()
+删除空格：strip()、rstrip()、lstrip()
+str()函数。直接将字符串和数字用+连接会报错，需要用str()将数字转换为字符串
+转义字符：\t \n
+import this：python之禅
+
+#列表
+空列表：list1=[]。list[0]，取第一个元素；list[-1]取最后一个元素。len(list1)：列表长度
+追加元素：append() 列表末尾插入
+插入元素：insert() insert(0, "newelement")
+删除元素：1、del list1[0]；2、pop()删除末尾元素，pop(i)删除位置i的元素。删除时可以赋值给变量使用；3、remove(value)，根据值删除元素。删除时可以赋值给变量使用
+排序：1、sort() sort(reverse=true) 会修改列表元素顺序；2、sorted() 临时排序；3、reverse() 反转顺序
+遍历列表：for循环 for value in list1:
+
+#数值列表
+创建数字列表：list(range(1,10,2))。range()参数值：起始值、截止值、步长
+列表函数：min()、max()、sum()：数字列表最小值、最大值、总和
+列表解析：list1 = [values**2 for value in range(1,4)]
+
+#切片。处理列表的部分元素，生成新的列表
+list1[0:3]、list1[:3]从列表头开始
