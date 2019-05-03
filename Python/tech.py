@@ -1,3 +1,6 @@
+# python之禅
+import this
+
 # import、from import、import as区别
 '''
 import：引入整个包，调用包中某个类时需要写包名
