@@ -9,8 +9,9 @@ Python编程从入门到实践笔记
 3、布尔值：True、False
 4、空值：None
 5、格式化：%s，%d，format函数
-6、转义字符：\t，\n，\'，\"
+6、转义字符：\t，\n，\'，\"。使用r'string'的方式可以定义为原始字符串。r表示raw的意思
 7、id()，变量内存地址
+8、split()方法。拆分字符串。默认无参数按空格拆分，否则按传入参数作为分隔符拆分
 
 #---列表list[]---#
 1、空列表：list1=[]。list[0]取第一个元素；list[-1]取最后一个元素。len(list1)：列表长度
@@ -71,3 +72,15 @@ Python编程从入门到实践笔记
 4、导入类、导入模块。
 
 #---文件和异常---#
+1、打开文件open(path,mode)方法。path：相对路径、绝对路径。mode: r读取（默认r）、w写入、a附加、r+读取写入
+2、读取文件
+    1）read方法：with open(path) as file_object: file_object.read()
+    2）逐行读取。for i in file_object，或list1=file_object.readlines()。注意：有readline()和readlines()两个方法，分别为读取一行、所有行
+3、写入文件
+    1）write()方法。参数只能为字符串，数字需要用str()方法转换后写入
+    2）w模式，清除文件内容并写入
+    3）a模式，附加到文件末尾
+4、异常
+    1）try/except
+    2）except后面可以跟else执行成功分支的代码
+5、存取数据。json.dump()和json.load()
