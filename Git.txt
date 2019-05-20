@@ -130,6 +130,9 @@ $ git push origin :refs/tags/v1.0   删除远程库标签
 $ git add -f App.class 强制添加被忽略的文件类型
 $ git check-ignore -v App.class 检查哪个规则忽略了.class文件类型
 
+配置仓库语言
+创建.gitattributes文件，加上*.js linguist-language=java
+
 配置颜色
 $ git config --global color.ui true
 
