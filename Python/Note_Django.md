@@ -36,14 +36,14 @@ django.get_version()
 django-admin startproject HelloWorld
 ```
 
-HelloWorld项目目录结构：
+HelloWorld目录结构：
 
 - HelloWorld: 项目的容器。
 - manage.py: 一个实用的命令行工具，可让你以各种方式与该 Django 项目进行交互。
 - HelloWorld/\__init__.py: 一个空文件，告诉 Python 该目录是一个 Python 包。
 - HelloWorld/settings.py: 该 Django 项目的设置/配置。
 - HelloWorld/urls.py: 该 Django 项目的 URL 声明; 一份由 Django 驱动的网站"目录"。
-- HelloWorld/wsgi.py: 一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目。
+- HelloWorld/wsgi.py:0 一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目。
 
 cd进入该目录并启动服务器，浏览器输入*127.0.0.1:8000*，即可访问django网页。*注：网页代码修改后，无需手动重启服务器。*
 
@@ -63,7 +63,9 @@ def hello(request):
 ```python
 from django.urls import path
 from . import view
-urlpatterns = [path('hello/', view.hello),]
+urlpatterns = [
+    path('hello/', view.hello),
+]
 ```
 
 path()方法可以接收四个参数，分别是两个必选参数：route、view 和两个可选参数：kwargs、name
@@ -77,7 +79,7 @@ path(route, view, kwargs=None, name=None)
 - kwargs: 视图使用的字典类型的参数。
 - name: 用来反向获取 URL。
 
-## Django简单项目实操
+## Web应用程序实操
 
 [教程：在Django中构建Oracle支持的Web应用程序](https://www.oracle.com/technetwork/articles/vasiliev-django-100817-zhs.html)
 
@@ -88,10 +90,6 @@ path(route, view, kwargs=None, name=None)
 ### 模型
 
 #### 数据库配置
-
-
-
-
 
 settings.py中DATABASES的Oracle配置
 
@@ -116,7 +114,11 @@ DATABASES = {
 django-admin startapp TestModel
 ```
 
+TestModel目录结构：
 
+- models.py :在 django.db.models.Model 类之上构建的 Python 类，每个模型都映射到一个数据库表。
+
+- views.py :包含视图（Python 函数），每个视图返回 HttpResponse 对象，或者引发 HTTP 异常。
 
 ### 模板
 
