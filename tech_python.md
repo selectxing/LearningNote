@@ -35,39 +35,63 @@ print(dt.now())
 
 # 变量、列表、元组赋值
 
-> 注意：列表不能直接赋值给新变量，需要用复制方式
->
+> 注意：列表不能直接赋值给新变量，需要用切片复制或list构造函数方式
 
 ```python
-a = "hello"
-b = a
-print(a)
-print(b)
+oldlist = [1,2,3,4]
 
-a = "world"
-print(a)
-print(b)
+newlist1 = oldlist
 
-list1 = ['a','b','c','d']
-list2 = list1
-print(list1)
-print(list2)
+newlist2 = list(oldlist)
 
-list1[0] = "z"
-print(list1)
-print(list2)
+newlist3 = oldlist[:]
 
-tuple1 = (1,2,3)
-tuple2 = tuple1
-print(tuple1)
-print(tuple2)
+oldlist[0] = 111
 
-tuple1 = (5,5,5)
-print(tuple1)
-print(tuple2)
+print(oldlist)
+
+print(newlist1)
+
+print(newlist2)
+
+print(newlist3)
 ```
 
-# if \_\_name__ == '\_\_main__'
+*列表复制的5种方式*
+
+```python
+import copy
+
+a = [[10], 20]
+
+b = a[:]
+
+c = list(a)
+
+d = a * 1
+
+e = copy.copy(a)
+
+f = copy.deepcopy(a)
+
+a.append(21)
+
+a[0].append(11)
+
+print(id(a), a)
+
+print(id(b), b)
+
+print(id(c), c)
+
+print(id(d), d)
+
+print(id(e), e)
+
+print(id(f), f)
+```
+
+# 	if \_\_name__ == '\_\_main__'
 
 [如何简单地理解Python中的if __name__ == '__main__'](https://blog.csdn.net/yjk13703623757/article/details/77918633/)
 
