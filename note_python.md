@@ -1,28 +1,18 @@
 # Python编程从入门到实践笔记
 ## HelloWorld
-
 - 注释：#行注释；'''块注释；"""文档字符串注释（用于生成文档）
 - 彩蛋：import this导入python之禅
 
 ## 数据类型
 - 字符串函数：title()、upper()、lower()
-
   删除空格：strip()、rstrip()、lstrip()
-
   str()函数，字符串和数字+连接会报错，用str()将数字转换为字符串
-
 - 浮点除/，整除（地板除）//，取余%
-
 - 布尔值：True、False
-
 - 空值：None
-
 - 格式化：%s，%d，format函数
-
 - 转义字符：\t，\n，\'，\"。使用r'string'的方式可以定义为原始字符串。r表示raw的意思
-
 - id()，变量内存地址
-
 - split()方法。拆分字符串。默认无参数按空格拆分，否则按传入参数作为分隔符拆分
 
 ## 列表list[]
@@ -47,23 +37,14 @@
 
 ## 字典dict{}
 - 空字典：dict1={}。dict1[key]取键key的value。
-
 - 添加键-值对：dict1[key]=value1、dict2[key2]=value2，键-值对排列顺序与添加顺序不同
-
 - 删除键-值对：del dict1[key]
-
 - 遍历字典：for循环 for key, value in dict1.items(): 其中：key、value可以使用易于理解的变量名
-
   dict.keys(): 遍历所有key
-
   dict.values():遍历所有value
-
 - 嵌套
-
-  列表中存字典list1=[dict1, dict2, dict3]；
-
-  字典中存列表dict1={list1, list2, list3}；
-
+  列表中存字典list1=[dict1, dict2, dict3]
+  字典中存列表dict1={list1, list2, list3}
   字典中存字典dictA={dict1, dict2, dict3}
 
 ## 集合set()
@@ -71,21 +52,13 @@
 
 ## if、while、for循环
 - 变量判断：==、!=、>、<、>=、<=、and、or、()的使用
-
 - 列表判断：in、not in的使用，判断元素是否在列表中
-
 - if、if-else、if-elif-else的使用。if 变量：变量非空时返回True
-
 - while循环。while True:使用标识退出；break、continue关键字
-
 - for循环
-
   遍历字符串或者序列
-
   配合range函数使用
-
 - input()函数。将输入解读为字符串，如果输入为整数，可以使用int()将字符串转换为整数
-
   python2.7中为raw_input()
 
 ## 函数
@@ -113,22 +86,15 @@
 
 ## 文件和异常
 - 打开文件open(path,mode)方法。path：相对路径、绝对路径。mode: r读取（默认r）、w写入、a附加、r+读取写入
-
 - 读取文件
-
   1. read方法：with open(path) as file_object: file_object.read()
-
   2. 逐行读取。for i in file_object，或list1=file_object.readlines()
-
      > 注意：有readline()和readlines()两个方法，分别为读取一行、所有行
-
 - 写入文件
   1. write()方法。参数只能为字符串，数字需要用str()方法转换后写入
   2. w模式，清除文件内容并写入
-  3. a模式，附加到文件末尾
-  
+  3. a模式，附加到文件末尾 
 - 异常
   1. try/except
   2. except后面可以跟else执行成功分支的代码
-  
 - 存取数据。json.dump()和json.load()
